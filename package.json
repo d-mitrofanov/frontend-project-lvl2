@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "description": "Some description",
   "bin": {
-    "gendiff": "bin/gendiff.js",
-    "ConsoleTest": "ConsoleTest.js"
+    "gendiff": "bin/gendiff.js"
   },
-  "main": "index.js",
+  "main": "src/index.js",
+  "engines": {
+    "node": ">=14"
+  },
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -27,6 +29,7 @@
     "eslint-plugin-import": "^2.22.0"
   },
   "dependencies": {
-    "commander": "^5.1.0"
+    "commander": "^5.1.0",
+    "lodash": "^4.17.19"
   }
 }
