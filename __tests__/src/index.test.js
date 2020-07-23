@@ -36,3 +36,7 @@ test('jsonRev', () => {
 test('yml', () => {
   expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'))).toEqual(expectedResult1);
 });
+
+test('ini', () => {
+  expect(genDiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'))).toEqual(expectedResult1);
+});
