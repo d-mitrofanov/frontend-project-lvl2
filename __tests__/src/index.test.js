@@ -25,10 +25,14 @@ const expectedResult2 = `{
  + follow: false
 }`;
 
-test('gendiff', () => {
+test('json', () => {
   expect(genDiff(getFixturePath('file1.json'), getFixturePath('file2.json'))).toEqual(expectedResult1);
 });
 
-test('gendiffReversed', () => {
+test('jsonRev', () => {
   expect(genDiff(getFixturePath('file2.json'), getFixturePath('file1.json'))).toEqual(expectedResult2);
+});
+
+test('yml', () => {
+  expect(genDiff(getFixturePath('file1.yml'), getFixturePath('file2.yml'))).toEqual(expectedResult1);
 });
