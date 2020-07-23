@@ -10,6 +10,6 @@ program
   .arguments('<FirstFile> <SecondFile>')
   .action((firstFile, secondFile) => {
     const result = genDiff(firstFile, secondFile);
-    console.log(`{\n ${result}\n}`);
+    console.log(result);
   })
   .parse(process.argv);
