@@ -3,6 +3,10 @@ import process from 'process';
 import path from 'path';
 import _ from 'lodash';
 import chooseParser from './parser.js';
+<<<<<<< HEAD
+=======
+import chooseFormatter from './formatters/index.js';
+>>>>>>> 5b737f5... step 8
 
 const getDifference = (before, after) => {
   const difference = _.reduce(before, (acc, value, key) => {

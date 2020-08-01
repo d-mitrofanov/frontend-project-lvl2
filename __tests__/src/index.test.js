@@ -7,6 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '..', '__fixtures__', filename);
 
+<<<<<<< HEAD
 const expectedResult1 = `{
    host: hexlet.io
  + timeout: 20
@@ -39,4 +40,21 @@ test('yml', () => {
 
 test('ini', () => {
   expect(genDiff(getFixturePath('file1.ini'), getFixturePath('file2.ini'))).toEqual(expectedResult1);
+=======
+const resultStylish = fs.readFileSync(getFixturePath('resultStylish.txt'), 'utf-8');
+const resultPlain = fs.readFileSync(getFixturePath('resultPlain.txt'), 'utf-8');
+
+const formats = ['json', 'yml', 'ini'];
+
+test('stylish', () => {
+  formats.forEach((format) => {
+    expect(genDiff(getFixturePath(`before.${format}`), getFixturePath(`after.${format}`), 'stylish')).toEqual(resultStylish);
+  });
+});
+
+test('plain', () => {
+  formats.forEach((format) => {
+    expect(genDiff(getFixturePath(`before.${format}`), getFixturePath(`after.${format}`), 'plain')).toEqual(resultPlain);
+  });
+>>>>>>> 5b737f5... step 8
 });
