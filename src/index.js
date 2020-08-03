@@ -3,35 +3,41 @@ import process from 'process';
 import path from 'path';
 import _ from 'lodash';
 import chooseParser from './parser.js';
-<<<<<<< HEAD
-=======
 import chooseFormatter from './formatters/index.js';
->>>>>>> 5b737f5... step 8
 
 const getDifference = (before, after) => {
-  const difference = _.reduce(before, (acc, value, key) => {
-    if (!_.has(after, key)) {
-      acc.push(`- ${key}: ${value}`);
-    } else if (value !== after[key]) {
-      acc.push(`+ ${key}: ${after[key]}\n - ${key}: ${value}`);
-    } else {
-      acc.push(`  ${key}: ${value}`);
+  // removed added changed notChanged nested
+  const keys = _.union(Object.keys(before), Object.keys(after));
+
+  const result = keys.map((key) => {
+    const valueBefore = before[key];
+    const valueAfter = after[key];
+
+    if (!_.has(before, key) && _.has(after, key)) {
+      return { key, type: 'added', value: valueAfter };
     }
 
-    return acc;
-  }, []);
-
-  const afterDifference = _.reduce(after, (acc, value, key) => {
-    if (!_.has(before, key)) {
-      acc.push(`+ ${key}: ${value}`);
+    if (_.has(before, key) && !_.has(after, key)) {
+      return { key, type: 'removed', value: valueBefore };
     }
-    return acc;
-  }, difference);
 
-  return afterDifference.join('\n ');
+    if (_.isPlainObject(valueBefore) && _.isPlainObject(valueAfter)) {
+      return { key, type: 'nested', value: getDifference(valueBefore, valueAfter) };
+    }
+
+    if (valueBefore !== valueAfter) {
+      return {
+        key, type: 'changed', oldValue: valueBefore, newValue: valueAfter,
+      };
+    }
+
+    return { key, type: 'notChanged', value: valueBefore };
+  });
+
+  return result;
 };
 
-const genDiff = (firstFilePath, secondFilePath) => {
+const genDiff = (firstFilePath, secondFilePath, format) => {
   const fileData1 = fs.readFileSync(path.resolve(process.cwd(), firstFilePath), 'utf-8');
   const fileData2 = fs.readFileSync(path.resolve(process.cwd(), secondFilePath), 'utf-8');
 
@@ -40,7 +46,8 @@ const genDiff = (firstFilePath, secondFilePath) => {
   const data1 = chooseParser(fileExt, fileData1);
   const data2 = chooseParser(fileExt, fileData2);
 
-  return `{\n ${getDifference(data1, data2)}\n}`;
+  const difference = getDifference(data1, data2);
+  return chooseFormatter(difference, format);
 };
 
 export default genDiff;

@@ -1,5 +1,6 @@
 import stylish from './stylish.js';
 import plain from './plain.js';
+import json from './json.js';
 
 const chooseFormatter = (data, format) => {
   let formatter;
@@ -10,6 +11,10 @@ const chooseFormatter = (data, format) => {
 
     case 'plain':
       formatter = plain;
+      break;
+
+    case 'json':
+      formatter = json;
       break;
 
     default:
