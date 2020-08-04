@@ -2,44 +2,33 @@ import yaml from 'js-yaml';
 import ini from 'ini';
 import _ from 'lodash';
 
-const transformNumbers = (data) => {
-  const entries = Object.entries(data);
-  const result = entries.reduce((acc, [key, value]) => {
-    if (_.isPlainObject(value)) {
-      return { ...acc, [key]: transformNumbers(value) };
-    }
+const isNumberInQuotes = (value) => !_.isBoolean(value) && parseFloat(value);
 
-    if (!(typeof value === 'boolean') && Number.isInteger(Number(value))) {
-      return { ...acc, [key]: Number(value) };
+const transformNumbers = (data) => {
+  const result = _.mapValues(data, (value) => {
+    if (_.isPlainObject(value)) {
+      return transformNumbers(value);
     }
-    return { ...acc, [key]: value };
-  }, {});
+    return isNumberInQuotes(value) ? Number(value) : value;
+  });
   return result;
 };
 
-const chooseParser = (fileFormat, data) => {
-  let parser;
-  switch (fileFormat) {
-    case '.yml':
-      parser = yaml.safeLoad;
-      break;
-
-    case '.ini':
-      parser = () => {
-        const parsedData = ini.parse(data);
-        return transformNumbers(parsedData);
-      };
-      break;
-
-    case '.json':
-      parser = JSON.parse;
-      break;
-
-    default:
-      break;
-  }
-
-  return parser(data);
+const customIniParser = (data) => {
+  const parsedData = ini.parse(data);
+  return transformNumbers(parsedData);
 };
 
-export default chooseParser;
+const parse = (data, fileFormat) => {
+  const parsers = {
+    yml: yaml.safeLoad,
+    ini: customIniParser,
+    json: JSON.parse,
+  };
+  if (!parsers[fileFormat]) {
+    throw new Error('Please use supported format.');
+  }
+  return parsers[fileFormat](data);
+};
+
+export default parse;
