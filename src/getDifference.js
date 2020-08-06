@@ -1,31 +1,31 @@
 import _ from 'lodash';
 
-const getDifference = (before, after) => {
-  const keys = _.union(Object.keys(before), Object.keys(after));
+const getDifference = (data1, data2) => {
+  const keys = _.union(Object.keys(data1), Object.keys(data2));
 
   const result = keys.map((key) => {
-    const valueBefore = before[key];
-    const valueAfter = after[key];
+    const value1 = data1[key];
+    const value2 = data2[key];
 
-    if (!_.has(before, key) && _.has(after, key)) {
-      return { key, type: 'added', value: valueAfter };
+    if (!_.has(data1, key) && _.has(data2, key)) {
+      return { key, type: 'added', value: value2 };
     }
 
-    if (_.has(before, key) && !_.has(after, key)) {
-      return { key, type: 'removed', value: valueBefore };
+    if (_.has(data1, key) && !_.has(data2, key)) {
+      return { key, type: 'removed', value: value1 };
     }
 
-    if (_.isPlainObject(valueBefore) && _.isPlainObject(valueAfter)) {
-      return { key, type: 'nested', value: getDifference(valueBefore, valueAfter) };
+    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
+      return { key, type: 'nested', children: getDifference(value1, value2) };
     }
 
-    if (valueBefore !== valueAfter) {
+    if (value1 !== value2) {
       return {
-        key, type: 'changed', oldValue: valueBefore, newValue: valueAfter,
+        key, type: 'changed', oldValue: value1, newValue: value2,
       };
     }
 
-    return { key, type: 'notChanged', value: valueBefore };
+    return { key, type: 'notChanged', value: value1 };
   });
 
   return result;

@@ -2,7 +2,7 @@ import yaml from 'js-yaml';
 import ini from 'ini';
 import _ from 'lodash';
 
-const isNumberInQuotes = (value) => !_.isBoolean(value) && parseFloat(value);
+const isNumberInQuotes = (value) => !Number.isNaN(parseFloat(value));
 
 const transformNumbers = (data) => {
   const result = _.mapValues(data, (value) => {
@@ -19,16 +19,15 @@ const customIniParser = (data) => {
   return transformNumbers(parsedData);
 };
 
-const parse = (data, fileFormat) => {
-  const parsers = {
-    yml: yaml.safeLoad,
-    ini: customIniParser,
-    json: JSON.parse,
-  };
-  if (!parsers[fileFormat]) {
-    throw new Error('Please use supported format.');
-  }
-  return parsers[fileFormat](data);
+const parsers = {
+  yml: yaml.safeLoad,
+  ini: customIniParser,
+  json: JSON.parse,
 };
 
-export default parse;
+export default (data, format) => {
+  if (!parsers[format]) {
+    throw new Error(`The format '${format}' is not supported.`);
+  }
+  return parsers[format](data);
+};

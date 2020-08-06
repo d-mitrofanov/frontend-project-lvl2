@@ -23,15 +23,15 @@ const turnToStringChanged = (key, oldV, newV, level) => {
   return result;
 };
 
-const stylish = (data, level = 1) => {
+const renderStylish = (data, level = 1) => {
   const result = data.map((el) => {
     const {
-      key, value, type, oldValue, newValue,
+      key, value, type, oldValue, newValue, children,
     } = el;
 
     switch (type) {
       case 'nested':
-        return `${tab.repeat(level)}  ${key}: ${stylish(value, level + 2)}`;
+        return `${tab.repeat(level)}  ${key}: ${renderStylish(children, level + 2)}`;
 
       case 'added':
         return `${tab.repeat(level)}+ ${key}: ${turnToString(value, level + 2)}`;
@@ -52,4 +52,4 @@ const stylish = (data, level = 1) => {
   return `{\n${result.join('\n')}\n${tab.repeat(level - 1)}}`;
 };
 
-export default stylish;
+export default renderStylish;

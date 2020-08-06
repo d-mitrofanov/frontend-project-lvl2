@@ -1,28 +1,16 @@
-import stylish from './stylish.js';
-import plain from './plain.js';
-import json from './json.js';
+import rendeStylish from './stylish.js';
+import renderPlain from './plain.js';
+import renderJson from './json.js';
 
-const chooseFormatter = (data, format) => {
-  let formatter;
-  switch (format) {
-    case 'stylish':
-      formatter = stylish;
-      break;
-
-    case 'plain':
-      formatter = plain;
-      break;
-
-    case 'json':
-      formatter = json;
-      break;
-
-    default:
-      formatter = stylish;
-      break;
-  }
-
-  return formatter(data);
+const formatters = {
+  stylish: rendeStylish,
+  plain: renderPlain,
+  json: renderJson,
 };
 
-export default chooseFormatter;
+export default (data, format) => {
+  if (!formatters[format]) {
+    throw new Error(`The output format - '${format}' is not supported.`);
+  }
+  return formatters[format](data);
+};

@@ -11,15 +11,15 @@ const convertString = (value) => {
   return '[complex value]';
 };
 
-const plain = (data, nextKey = []) => {
+const renderPlain = (data, nextKey = []) => {
   const array = data.map((el) => {
     const {
-      key, value, type, oldValue, newValue,
+      key, value, type, oldValue, newValue, children,
     } = el;
     const accumulator = nextKey.concat(key);
     switch (type) {
       case 'nested':
-        return plain(value, accumulator);
+        return renderPlain(children, accumulator);
 
       case 'added':
         return `Property '${accumulator.join('.')}' was added with value: ${convertString(value)}`;
@@ -38,4 +38,4 @@ const plain = (data, nextKey = []) => {
   return `${result.join('\n')}`;
 };
 
-export default plain;
+export default renderPlain;
