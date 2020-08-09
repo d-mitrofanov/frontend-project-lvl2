@@ -20,7 +20,7 @@ beforeEach(() => {
   resultJson = fs.readFileSync(getFixturePath('resultJson.txt'), 'utf-8');
 });
 
-test.each(inputFormats)('allFormats', (format) => {
+test.each(inputFormats)('genDiff for %s input format', (format) => {
   const file1 = getFixturePath(`file1.${format}`);
   const file2 = getFixturePath(`file2.${format}`);
   expect(genDiff(file1, file2, 'stylish')).toEqual(resultStylish);

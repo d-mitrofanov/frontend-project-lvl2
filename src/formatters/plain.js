@@ -1,41 +1,46 @@
 import _ from 'lodash';
 
-const convertString = (value) => {
-  if (!(_.isObject(value)) && typeof value === 'boolean') {
-    return value;
+const formatValue = (value) => {
+  if (_.isObject(value)) {
+    return '[complex value]';
   }
 
-  if (!(_.isObject(value))) {
-    return `'${value}'`;
-  }
-  return '[complex value]';
+  return _.isString(value) ? `'${value}'` : value;
 };
 
-const renderPlain = (data, nextKey = []) => {
-  const array = data.map((el) => {
-    const {
-      key, value, type, oldValue, newValue, children,
-    } = el;
-    const accumulator = nextKey.concat(key);
-    switch (type) {
-      case 'nested':
-        return renderPlain(children, accumulator);
+const joinPathParts = (pathParts) => pathParts.join('.');
 
-      case 'added':
-        return `Property '${accumulator.join('.')}' was added with value: ${convertString(value)}`;
+const renderPlain = (dataArr) => {
+  const iter = (data, pathParts) => {
+    const result = data.flatMap((el) => {
+      const {
+        key, value, type, oldValue, newValue, children,
+      } = el;
+      const pathPartsAcc = pathParts.concat(key);
+      switch (type) {
+        case 'nested':
+          return iter(children, pathPartsAcc);
 
-      case 'removed':
-        return `Property '${accumulator.join('.')}' was removed`;
+        case 'added':
+          return `Property '${joinPathParts(pathPartsAcc)}' was added with value: ${formatValue(value)}`;
 
-      case 'changed':
-        return `Property '${accumulator.join('.')}' was updated. From ${convertString(oldValue)} to ${convertString(newValue)}`;
+        case 'removed':
+          return `Property '${joinPathParts(pathPartsAcc)}' was removed`;
 
-      default:
-        return '';
-    }
-  });
-  const result = array.filter((x) => x.length !== 0);
-  return `${result.join('\n')}`;
+        case 'changed':
+          return `Property '${joinPathParts(pathPartsAcc)}' was updated. From ${formatValue(oldValue)} to ${formatValue(newValue)}`;
+
+        case 'unchanged':
+          return [];
+
+        default:
+          throw new Error(`This type - ${type} is not supported`);
+      }
+    });
+    return result.join('\n');
+  };
+
+  return iter(dataArr, []);
 };
 
 export default renderPlain;

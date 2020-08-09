@@ -5,7 +5,7 @@
     "children": [
       {
         "key": "setting1",
-        "type": "notChanged",
+        "type": "unchanged",
         "value": "Value 1"
       },
       {
@@ -27,7 +27,7 @@
         "children": [
           {
             "key": "key",
-            "type": "notChanged",
+            "type": "unchanged",
             "value": "value"
           },
           {
@@ -68,7 +68,7 @@
       },
       {
         "key": "foo",
-        "type": "notChanged",
+        "type": "unchanged",
         "value": "bar"
       },
       {

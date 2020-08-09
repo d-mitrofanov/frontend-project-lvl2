@@ -25,7 +25,7 @@ const getDifference = (data1, data2) => {
       };
     }
 
-    return { key, type: 'notChanged', value: value1 };
+    return { key, type: 'unchanged', value: value1 };
   });
 
   return result;
