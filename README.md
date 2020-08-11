@@ -9,9 +9,9 @@
 
 ### Установка: ```$ npm link```
 
-### Запуск ```$ gendiff [options] <filePath1> <filePath2>```
+### Запуск: ```$ gendiff [options] <filePath1> <filePath2>```
 
-### Справка ```$ gendiff -h```
+### Справка: ```$ gendiff -h```
 
 #### Supported Input Formats: 
 - JSON
