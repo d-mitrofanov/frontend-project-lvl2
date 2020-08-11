@@ -1,6 +1,6 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/d825fc7f3349b5ed861d/maintainability)](https://codeclimate.com/github/d-mitrofanov/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d825fc7f3349b5ed861d/test_coverage)](https://codeclimate.com/github/d-mitrofanov/frontend-project-lvl2/test_coverage)
-[![Continuous integration](https://github.com/d-mitrofanov/frontend-project-lvl2/workflows/Continuous%20integration/badge.svg)](https://github.com/d-mitrofanov/frontend-project-lvl2/actions)
+[!![CI](https://github.com/d-mitrofanov/frontend-project-lvl2/workflows/CI/badge.svg)](https://github.com/d-mitrofanov/frontend-project-lvl2/actions)
 
 # Вычислитель отличий
 
