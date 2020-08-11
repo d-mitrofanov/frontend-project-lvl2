@@ -8,7 +8,7 @@ const formatValue = (value) => {
   return _.isString(value) ? `'${value}'` : value;
 };
 
-const joinPathParts = (pathParts) => pathParts.join('.');
+const getPropertyName = (pathParts) => pathParts.join('.');
 
 const renderPlain = (dataArr) => {
   const iter = (data, pathParts) => {
@@ -16,19 +16,19 @@ const renderPlain = (dataArr) => {
       const {
         key, value, type, oldValue, newValue, children,
       } = el;
-      const pathPartsAcc = pathParts.concat(key);
+      const currentPathParts = pathParts.concat(key);
       switch (type) {
         case 'nested':
-          return iter(children, pathPartsAcc);
+          return iter(children, currentPathParts);
 
         case 'added':
-          return `Property '${joinPathParts(pathPartsAcc)}' was added with value: ${formatValue(value)}`;
+          return `Property '${getPropertyName(currentPathParts)}' was added with value: ${formatValue(value)}`;
 
         case 'removed':
-          return `Property '${joinPathParts(pathPartsAcc)}' was removed`;
+          return `Property '${getPropertyName(currentPathParts)}' was removed`;
 
         case 'changed':
-          return `Property '${joinPathParts(pathPartsAcc)}' was updated. From ${formatValue(oldValue)} to ${formatValue(newValue)}`;
+          return `Property '${getPropertyName(currentPathParts)}' was updated. From ${formatValue(oldValue)} to ${formatValue(newValue)}`;
 
         case 'unchanged':
           return [];

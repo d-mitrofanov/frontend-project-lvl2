@@ -1,7 +1,13 @@
 {
   "name": "frontend-project-lvl2",
-  "version": "0.0.1",
-  "description": "Some description",
+  "version": "0.9.0",
+  "description": "Config comparison utility",
+  "keywords": [
+    "config",
+    "comparison",
+    "different",
+    "outputs"
+  ],
   "bin": {
     "gendiff": "bin/gendiff.js"
   },

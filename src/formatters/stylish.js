@@ -17,7 +17,7 @@ const formatValue = (element, level) => {
 
 const renderStylish = (dataArr) => {
   const iter = (data, level) => {
-    const result = data.map((el) => {
+    const result = data.flatMap((el) => {
       const {
         key, value, type, oldValue, newValue, children,
       } = el;
@@ -36,8 +36,8 @@ const renderStylish = (dataArr) => {
           return `${formTabSpace(level)}  ${key}: ${formatValue(value, level)}`;
 
         case 'changed':
-          return [[`${formTabSpace(level)}+ ${key}: ${formatValue(newValue, level + 2)}`],
-            [`\n${formTabSpace(level)}- ${key}: ${formatValue(oldValue, level + 2)}`]].join('');
+          return [`${formTabSpace(level)}+ ${key}: ${formatValue(newValue, level + 2)}`,
+            `${formTabSpace(level)}- ${key}: ${formatValue(oldValue, level + 2)}`];
 
         default:
           throw new Error(`This type - ${type} is not supported`);
