@@ -4,13 +4,11 @@
 
 [![Maintainability](https://api.codeclimate.com/v1/badges/d825fc7f3349b5ed861d/maintainability)](https://codeclimate.com/github/d-mitrofanov/frontend-project-lvl2/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/d825fc7f3349b5ed861d/test_coverage)](https://codeclimate.com/github/d-mitrofanov/frontend-project-lvl2/test_coverage)
-[![eslint](https://github.com/d-mitrofanov/frontend-project-lvl2/workflows/eslint/badge.svg)](https://github.com/d-mitrofanov/frontend-project-lvl2/actions)
+![Continuous integration](https://github.com/d-mitrofanov/frontend-project-lvl2/workflows/Continuous%20integration/badge.svg)
 
 ## Установка: ```$ npm link```
-
-### Запуск ```$ gendiff [options] <filePath1> <filePath2>```
-
-### Справка ```$ gendiff -h```
+## Запуск ```$ gendiff [options] <filePath1> <filePath2>```
+## Справка ```$ gendiff -h```
 
 ### Supported Input Formats: 
 - JSON
