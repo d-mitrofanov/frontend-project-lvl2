@@ -1,11 +1,16 @@
-import _ from 'lodash';
-
 const formatValue = (value) => {
-  if (_.isObject(value)) {
-    return '[complex value]';
-  }
+  const type = typeof value;
 
-  return _.isString(value) ? `'${value}'` : value;
+  switch (type) {
+    case 'object':
+      return '[complex value]';
+
+    case 'string':
+      return `'${value}'`;
+
+    default:
+      return value;
+  }
 };
 
 const getPropertyName = (pathParts) => pathParts.join('.');
@@ -34,7 +39,7 @@ const renderPlain = (dataArr) => {
           return [];
 
         default:
-          throw new Error(`This type - ${type} is not supported`);
+          throw new Error(`The type of node ${type} is not supported for plain formatter`);
       }
     });
     return result.join('\n');

@@ -1,9 +1,8 @@
 import _ from 'lodash';
 
-const formTabSpace = (level) => {
-  const tab = '  ';
-  return tab.repeat(level);
-};
+const indent = '  ';
+
+const getIndent = (level) => indent.repeat(level);
 
 const formatValue = (element, level) => {
   if (!_.isObject(element)) {
@@ -11,8 +10,8 @@ const formatValue = (element, level) => {
   }
 
   const entries = Object.entries(element);
-  const result = entries.map(([key, value]) => `${formTabSpace(level)}  ${key}: ${formatValue(value)}`);
-  return `{\n${result.join('\n')}\n${formTabSpace(level - 1)}}`;
+  const result = entries.map(([key, value]) => `${getIndent(level)}  ${key}: ${formatValue(value)}`);
+  return `{\n${result.join('\n')}\n${getIndent(level - 1)}}`;
 };
 
 const renderStylish = (dataArr) => {
@@ -24,26 +23,26 @@ const renderStylish = (dataArr) => {
 
       switch (type) {
         case 'nested':
-          return `${formTabSpace(level)}  ${key}: ${iter(children, level + 2)}`;
+          return `${getIndent(level)}  ${key}: ${iter(children, level + 2)}`;
 
         case 'added':
-          return `${formTabSpace(level)}+ ${key}: ${formatValue(value, level + 2)}`;
+          return `${getIndent(level)}+ ${key}: ${formatValue(value, level + 2)}`;
 
         case 'removed':
-          return `${formTabSpace(level)}- ${key}: ${formatValue(value, level + 2)}`;
+          return `${getIndent(level)}- ${key}: ${formatValue(value, level + 2)}`;
 
         case 'unchanged':
-          return `${formTabSpace(level)}  ${key}: ${formatValue(value, level)}`;
+          return `${getIndent(level)}  ${key}: ${formatValue(value, level)}`;
 
         case 'changed':
-          return [`${formTabSpace(level)}+ ${key}: ${formatValue(newValue, level + 2)}`,
-            `${formTabSpace(level)}- ${key}: ${formatValue(oldValue, level + 2)}`];
+          return [`${getIndent(level)}+ ${key}: ${formatValue(newValue, level + 2)}`,
+            `${getIndent(level)}- ${key}: ${formatValue(oldValue, level + 2)}`];
 
         default:
-          throw new Error(`This type - ${type} is not supported`);
+          throw new Error(`The type of node ${type} is not supported for stylish formatter`);
       }
     });
-    return `{\n${result.join('\n')}\n${formTabSpace(level - 1)}}`;
+    return `{\n${result.join('\n')}\n${getIndent(level - 1)}}`;
   };
 
   return iter(dataArr, 1);

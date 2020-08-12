@@ -4,28 +4,25 @@ const getDifference = (data1, data2) => {
   const keys = _.union(Object.keys(data1), Object.keys(data2));
 
   const result = keys.map((key) => {
-    const value1 = data1[key];
-    const value2 = data2[key];
-
     if (!_.has(data1, key)) {
-      return { key, type: 'added', value: value2 };
+      return { key, type: 'added', value: data2[key] };
     }
 
     if (!_.has(data2, key)) {
-      return { key, type: 'removed', value: value1 };
+      return { key, type: 'removed', value: data1[key] };
     }
 
-    if (_.isPlainObject(value1) && _.isPlainObject(value2)) {
-      return { key, type: 'nested', children: getDifference(value1, value2) };
+    if (_.isPlainObject(data1[key]) && _.isPlainObject(data2[key])) {
+      return { key, type: 'nested', children: getDifference(data1[key], data2[key]) };
     }
 
-    if (value1 !== value2) {
+    if (data1[key] !== data2[key]) {
       return {
-        key, type: 'changed', oldValue: value1, newValue: value2,
+        key, type: 'changed', oldValue: data1[key], newValue: data2[key],
       };
     }
 
-    return { key, type: 'unchanged', value: value1 };
+    return { key, type: 'unchanged', value: data1[key] };
   });
 
   return result;
