@@ -25,9 +25,9 @@ beforeEach(() => {
 });
 
 test.each(inputFormats)('genDiff for %s input format', (format) => {
-  const file1 = getFixturePath(`file1.${format}`);
-  const file2 = getFixturePath(`file2.${format}`);
-  expect(genDiff(file1, file2, 'stylish')).toEqual(resultStylish);
-  expect(genDiff(file1, file2, 'plain')).toEqual(resultPlain);
-  expect(genDiff(file1, file2, 'json')).toEqual(resultJson);
+  const filePath1 = getFixturePath(`file1.${format}`);
+  const filePath2 = getFixturePath(`file2.${format}`);
+  expect(genDiff(filePath1, filePath2, 'stylish')).toEqual(resultStylish);
+  expect(genDiff(filePath1, filePath2, 'plain')).toEqual(resultPlain);
+  expect(genDiff(filePath1, filePath2, 'json')).toEqual(resultJson);
 });

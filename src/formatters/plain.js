@@ -15,7 +15,7 @@ const formatValue = (value) => {
 
 const getPropertyName = (pathParts) => pathParts.join('.');
 
-const renderPlain = (dataArr) => {
+const renderPlain = (nodes) => {
   const iter = (data, pathParts) => {
     const result = data.flatMap((el) => {
       const {
@@ -45,7 +45,7 @@ const renderPlain = (dataArr) => {
     return result.join('\n');
   };
 
-  return iter(dataArr, []);
+  return iter(nodes, []);
 };
 
 export default renderPlain;

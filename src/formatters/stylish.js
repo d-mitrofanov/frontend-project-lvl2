@@ -14,7 +14,7 @@ const formatValue = (element, level) => {
   return `{\n${result.join('\n')}\n${getIndent(level - 1)}}`;
 };
 
-const renderStylish = (dataArr) => {
+const renderStylish = (nodes) => {
   const iter = (data, level) => {
     const result = data.flatMap((el) => {
       const {
@@ -45,7 +45,7 @@ const renderStylish = (dataArr) => {
     return `{\n${result.join('\n')}\n${getIndent(level - 1)}}`;
   };
 
-  return iter(dataArr, 1);
+  return iter(nodes, 1);
 };
 
 export default renderStylish;
